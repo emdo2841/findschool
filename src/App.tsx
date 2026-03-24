@@ -43,7 +43,9 @@ function App() {
             <Route path="/complete-registration" element={<CompleteRegistration />} />
             <Route path="/schools/:id" element={<SchoolDetail />} />
             <Route path="/search" element={<SchoolSearch />} />
+            <Route path="/schools" element={<SchoolExplorer />} />
           
+
 
            {/* 2. ADD HERO SEARCH TO THE LANDING PAGE */}
               <Route path="/" element={<HeroSearch />} />
@@ -58,7 +60,7 @@ function App() {
               <Route path="/users/:id" element={<UserDetail />} />
               <Route path="/settings" element={<Settings />} />
 
-              <Route path="/schools" element={<SchoolExplorer />} />
+              
             </Route>
           </Routes>
         </Box>
