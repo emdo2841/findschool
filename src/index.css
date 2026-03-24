@@ -1,9 +1,9 @@
-section {
+/* section {
     background-image: url('../src/assets/Gemini_Generated_Image_hvmnc5hvmnc5hvmn.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat; /* Prevents the image from tiling */
-    background-attachment: fixed; /* Keeps the image static in place */
-    width: 100%; 
-    min-height: 100vh; 
-}
+    /* background-attachment: fixed; Keeps the image static in place */
+    /* width: 100%;  */
+    /* min-height: 100vh;  */
+/* } */ 
