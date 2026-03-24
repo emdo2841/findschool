@@ -1,0 +1,20 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ], 
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "strict": true,            // Turns on all strict type-checking rules
+    "noImplicitAny": true,     // FORCES you to declare types for function parameters 
+    "noImplicitReturns": true, // FORCES you to return a value in every branch of a function
+    "strictNullChecks": true
+  }
+}
