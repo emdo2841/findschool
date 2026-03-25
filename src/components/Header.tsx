@@ -10,7 +10,7 @@ import type { NavigateFunction } from 'react-router-dom';
 import { CiUser, CiLogin, } from "react-icons/ci"; // Added CiLogin
 import { PiUserPlusThin } from 'react-icons/pi';
 import { useAuth } from '../context/authContext';
-import { School2Icon, Users } from 'lucide-react';
+import { School2Icon, } from 'lucide-react';
 
 const Header = () => {
   const navigate: NavigateFunction = useNavigate();
@@ -50,13 +50,13 @@ const Header = () => {
                 </Button>
               )}
               
-              <Button onClick={() => navigate('/dashboard')} variant="ghost" size="sm">
+              {/* <Button onClick={() => navigate('/dashboard')} variant="ghost" size="sm">
                 <CiUser size={20} /> <Text ml={2}>Dashboard</Text>
               </Button>
 
               <Button onClick={() => navigate('/users')} variant="outline"  size="sm">
                 <Users  size={20}  /> <Text ml={2}>Users</Text>
-              </Button>
+              </Button> */}
             </HStack>
           ) : (
             <HStack gap={3}>
