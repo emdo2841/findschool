@@ -95,7 +95,7 @@ const UserDetail: React.FC = () => {
     : (user.school ? [user.school as SchoolInfo] : []);
 
   return (
-    <Box bg="gray.50" minH="100vh" py={10}>
+    <Box bg="gray.50" minH="100vh" py={10} mt={12}>
       <Container maxW="container.md">
         
         {/* Back Button */}

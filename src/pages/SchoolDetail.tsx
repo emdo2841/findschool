@@ -250,7 +250,7 @@ const SchoolDetail = () => {
   if (!school) return <Skeleton h="100vh" />;
 
   return (
-    <Box bg="gray.50" minH="100vh" position="relative">
+    <Box bg="gray.50" minH="100vh" position="relative" mt={12}>
       
       {/* UPDATE MODAL / POP UP FORM */}
       {isEditModalOpen && (

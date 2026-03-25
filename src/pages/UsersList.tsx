@@ -99,7 +99,7 @@ const UsersList: React.FC = () => {
   }, [loading, loadingMore, nextCursor]);
 
   return (
-    <Box bg="gray.50" minH="100vh" py={12}>
+    <Box bg="gray.50" minH="100vh" py={12} mt={12}>
       <Container maxW="container.xl">
         <VStack align="start" gap={1} mb={10}>
           <Heading size="2xl" fontWeight="black" letterSpacing="tight">User Directory</Heading>

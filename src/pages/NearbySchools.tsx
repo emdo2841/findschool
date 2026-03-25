@@ -27,7 +27,7 @@ const NearbySchools: React.FC = () => {
   }, []);
 
   return (
-    <Box bg="gray.50" minH="100vh" py={10}>
+    <Box bg="gray.50" minH="100vh" py={10} mt={12}>
       <Container maxW="container.xl">
         <VStack align="stretch" gap={12}>
           
