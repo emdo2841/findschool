@@ -56,8 +56,8 @@ const SchoolSearch: React.FC = () => {
   }, [query, filters]);
 
   return (
-    <Box bg="gray.50" minH="100vh" py={10}>
-      <Container maxW="container.lg">
+    <Box bg="gray.50" minH="100vh" py={10} mt={12}>
+      <Container maxW="container.lg" mt={12}>
         <VStack gap={8} align="stretch">
           
           {/* Header */}
