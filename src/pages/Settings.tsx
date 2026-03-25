@@ -68,7 +68,6 @@ const Settings: React.FC = () => {
         street: userData.street || '',
       });
 
-      // If the user already has a state, we should fetch its LGAs right away!
       if (userData.state) {
         fetchLgasForState(userData.state);
       }
@@ -86,15 +85,21 @@ const Settings: React.FC = () => {
     fetchProfile();
   }, [fetchProfile]);
 
-  // --- LOCATION API LOGIC ---
+  // --- LOCATION API LOGIC (Now Bulletproof) ---
   useEffect(() => {
     const fetchLocations = async () => {
       setLoadingLocations(true);
       try {
         const response = await axios.get('https://nga-states-lga.onrender.com/fetch');
-        setLocations(response.data);
+        // SAFEGUARD: Only set if it's actually an array
+        if (Array.isArray(response.data)) {
+          setLocations(response.data);
+        } else {
+          setLocations([]);
+        }
       } catch (error) {
         console.error("Failed to load locations", error);
+        setLocations([]);
       } finally {
         setLoadingLocations(false);
       }
@@ -106,7 +111,12 @@ const Settings: React.FC = () => {
     setLoadingLgas(true);
     try {
       const response = await axios.get(`https://nga-states-lga.onrender.com/?state=${stateName}`);
-      setAvailableLgas(response.data);
+      // SAFEGUARD: Only set if it's actually an array
+      if (Array.isArray(response.data)) {
+        setAvailableLgas(response.data);
+      } else {
+        setAvailableLgas([]);
+      }
     } catch (error) {
       console.error("Failed to fetch LGAs", error);
       setAvailableLgas([]);
@@ -117,7 +127,7 @@ const Settings: React.FC = () => {
 
   const handleStateChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedState = e.target.value;
-    setFormData(prev => ({ ...prev, state: selectedState, lga: '' })); // Reset LGA
+    setFormData(prev => ({ ...prev, state: selectedState, lga: '' }));
     
     if (!selectedState) {
       setAvailableLgas([]);
@@ -127,13 +137,11 @@ const Settings: React.FC = () => {
   };
   // --------------------------
 
-  // Handle Input Changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  // 1. UPDATE USER DETAILS
   const handleUpdateProfile = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!profile) return;
@@ -150,7 +158,6 @@ const Settings: React.FC = () => {
     }
   };
 
-  // 2. UPLOAD PROFILE IMAGE
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file || !profile) return;
@@ -178,7 +185,6 @@ const Settings: React.FC = () => {
     }
   };
 
-  // 3. DELETE USER ACCOUNT
   const handleDeleteAccount = async () => {
     if (!profile) return;
     
@@ -197,7 +203,6 @@ const Settings: React.FC = () => {
     }
   };
 
-  // Styling for the native selects
   const subtleSelectStyle = {
     padding: '10px 16px',
     borderRadius: '0.375rem',
@@ -224,7 +229,7 @@ const Settings: React.FC = () => {
   if (!profile) return null;
 
   return (
-    <Box bg="gray.50" minH="100vh" py={12}>
+    <Box bg="gray.50" minH="100vh" py={12} mt={12}>
       <Container maxW="container.md">
         <VStack gap={8} align="stretch">
           
@@ -246,7 +251,8 @@ const Settings: React.FC = () => {
             <Flex direction={{ base: 'column', sm: 'row' }} align="center" gap={6}>
               <Avatar.Root size="2xl" shape="rounded" bg="gray.100">
                 <Avatar.Fallback name={`${profile.first_name} ${profile.last_name}`} />
-                <Avatar.Image src={profile.image} />
+                {/* Secondary Safeguard: Make sure image isn't accidentally an array from old tests */}
+                <Avatar.Image src={Array.isArray(profile.image) ? profile.image[0] : profile.image} />
               </Avatar.Root>
               
               <VStack align={{ base: 'center', sm: 'start' }} gap={3}>
@@ -308,14 +314,16 @@ const Settings: React.FC = () => {
                       <Text fontSize="sm" fontWeight="bold" color="gray.600" mb={1}>State</Text>
                       <select name="state" value={formData.state} onChange={handleStateChange} style={subtleSelectStyle} required>
                         <option value="">{loadingLocations ? "Loading..." : "Select State"}</option>
-                        {locations.map((stateName) => <option key={stateName} value={stateName}>{stateName}</option>)}
+                        {/* SAFEGUARD: Inline check just in case */}
+                        {Array.isArray(locations) && locations.map((stateName) => <option key={stateName} value={stateName}>{stateName}</option>)}
                       </select>
                     </Box>
                     <Box>
                       <Text fontSize="sm" fontWeight="bold" color="gray.600" mb={1}>LGA</Text>
                       <select name="lga" value={formData.lga} onChange={handleChange} style={subtleSelectStyle} disabled={!formData.state || loadingLgas} required>
                         <option value="">{loadingLgas ? "Loading LGAs..." : "Select LGA"}</option>
-                        {availableLgas.map((lgaName) => <option key={lgaName} value={lgaName}>{lgaName}</option>)}
+                        {/* SAFEGUARD: Inline check just in case */}
+                        {Array.isArray(availableLgas) && availableLgas.map((lgaName) => <option key={lgaName} value={lgaName}>{lgaName}</option>)}
                       </select>
                     </Box>
                   </SimpleGrid>
